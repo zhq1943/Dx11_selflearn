@@ -1,0 +1,8 @@
+*.pdb
+*.tlog
+*.sdf
+*.opensdf
+*.obj
+Debug
+ipch
+*.txt
