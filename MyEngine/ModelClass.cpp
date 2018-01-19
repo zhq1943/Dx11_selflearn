@@ -5,6 +5,8 @@ ModelClass::ModelClass(void)
 {
 	m_vertexBuffer = 0;
 	m_indexBuffer = 0;
+
+	m_Texture = 0;
 }
 
 
@@ -17,11 +19,17 @@ ModelClass::~ModelClass(void)
 {
 }
 
-bool ModelClass::Initialize(ID3D11Device* device)
+bool ModelClass::Initialize(ID3D11Device* device,WCHAR* textureFilename)
 {
 	bool result;
 
 	result = InitializeBuffers(device);
+	if (!result)
+	{
+		return false;
+	}
+
+	result = LoadTexture(device,textureFilename);
 	if (!result)
 	{
 		return false;
@@ -67,13 +75,13 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	}
 
 	vertices[0].position = D3DXVECTOR3(-1.0f,-1.0f,0.0f);
-	vertices[0].color = D3DXVECTOR4(0.0f,1.0f,0.0f,1.0f);
+	vertices[0].texture = D3DXVECTOR2(0.0f,1.0f);
 
 	vertices[1].position = D3DXVECTOR3(0.0f,1.0f,0.0f);
-	vertices[1].color = D3DXVECTOR4(0.0f,1.0f,0.0f,1.0f);
+	vertices[1].texture = D3DXVECTOR2(0.5f,1.0f);
 
 	vertices[2].position = D3DXVECTOR3(1.0f,-1.0f,0.0f);
-	vertices[2].color = D3DXVECTOR4(0.0f,1.0f,0.0f,1.0f);
+	vertices[2].texture = D3DXVECTOR2(0.0f,1.0f);
 
 	indices[0] = 0;
 	indices[1] = 1;
@@ -150,4 +158,33 @@ void ModelClass::RenderBuffers(ID3D11DeviceContext* deviceContext)
 	deviceContext->IASetIndexBuffer(m_indexBuffer,DXGI_FORMAT_R32_UINT,0);
 
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+}
+
+bool ModelClass::LoadTexture( ID3D11Device* device,WCHAR* filename )
+{
+	bool result;
+
+	m_Texture = new TextureClass;
+	if (!m_Texture)
+	{
+		return false;
+	}
+
+	result = m_Texture->Initialize(device,filename);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+void ModelClass::ReleaseTexture()
+{
+	if (!m_Texture)
+	{
+		m_Texture->Shutdown();
+		delete m_Texture;
+		m_Texture = 0;
+	}
 }
