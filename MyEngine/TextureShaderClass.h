@@ -21,7 +21,7 @@ public:
 
 	bool Initialize(ID3D11Device* device,HWND hwnd);
 	void Shutdown();
-	bool Render(ID3D11DeviceContext* deviceContext,int,D3DXMATRIX,D3DXMATRIX,D3DXMATRIX);
+	bool Render(ID3D11DeviceContext* deviceContext,int,D3DXMATRIX,D3DXMATRIX,D3DXMATRIX,ID3D11ShaderResourceView* texture);
 
 private:
 	bool InitializeShader(ID3D11Device* device,HWND hwnd,WCHAR* ,WCHAR*);

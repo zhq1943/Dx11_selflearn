@@ -53,6 +53,11 @@ int ModelClass::GetIndexCount()
 	return m_indexCount;
 }
 
+ID3D11ShaderResourceView* ModelClass::GetTexture()
+{
+	return m_Texture->GetTexture();
+}
+
 bool ModelClass::InitializeBuffers(ID3D11Device* device)
 {
 	VertexType* vertices;
@@ -61,9 +66,9 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	D3D11_SUBRESOURCE_DATA vertexData,indexData;
 	HRESULT result;
 
-	m_vertexCount = 3;
+	m_vertexCount = 4;
 
-	m_indexCount = 3;
+	m_indexCount = 6;
 
 	vertices = new VertexType[m_vertexCount];
 	if(!vertices) return false;
@@ -74,18 +79,29 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 		return false;
 	}
 
-	vertices[0].position = D3DXVECTOR3(-1.0f,-1.0f,0.0f);
+	vertices[0].position = D3DXVECTOR3(-2.0f,-1.0f,0.0f);
 	vertices[0].texture = D3DXVECTOR2(0.0f,1.0f);
+	vertices[0].normal = D3DXVECTOR3(0.0f,0.0f,-1.0f);
 
-	vertices[1].position = D3DXVECTOR3(0.0f,1.0f,0.0f);
-	vertices[1].texture = D3DXVECTOR2(0.5f,1.0f);
+	vertices[1].position = D3DXVECTOR3(-2.0f,1.0f,0.0f);
+	vertices[1].texture = D3DXVECTOR2(0.0f,0.0f);
+	vertices[1].normal = D3DXVECTOR3(0.0f,0.0f,-1.0f);
 
-	vertices[2].position = D3DXVECTOR3(1.0f,-1.0f,0.0f);
-	vertices[2].texture = D3DXVECTOR2(0.0f,1.0f);
+	vertices[2].position = D3DXVECTOR3(2.0f,1.0f,0.0f);
+	vertices[2].texture = D3DXVECTOR2(1.0f,0.0f);
+	vertices[2].normal = D3DXVECTOR3(0.0f,0.0f,-1.0f);
+
+ 	vertices[3].position = D3DXVECTOR3(2.0f,-1.0f,0.0f);
+ 	vertices[3].texture = D3DXVECTOR2(1.0f,1.0f);
+	vertices[3].normal = D3DXVECTOR3(0.0f,0.0f,-1.0f);
 
 	indices[0] = 0;
 	indices[1] = 1;
 	indices[2] = 2;
+
+	indices[3] = 2;
+	indices[4] = 3;
+	indices[5] = 0;
 
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	vertexBufferDesc.ByteWidth = sizeof(VertexType)*m_vertexCount;

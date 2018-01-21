@@ -5,6 +5,10 @@
 #include "CameraClass.h"
 #include "ModelClass.h"
 #include "ColorShaderClass.h"
+#include "TextureShaderClass.h"
+
+#include "LightClass.h"
+#include "LightShaderClass.h"
 
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
@@ -23,7 +27,7 @@ public:
 	bool Frame();
 
 private:
-	bool Render();
+	bool Render(float);
 
 private:
 
@@ -31,4 +35,9 @@ private:
 	CameraClass* m_Camera;
 	ModelClass* m_Model;
 	ColorShaderClass* m_ColorShader;
+
+	TextureShaderClass* m_TextureShader;
+
+	LightShaderClass* m_LightShader;
+	LightClass* m_Light;
 };
